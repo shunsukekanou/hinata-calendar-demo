@@ -7,13 +7,14 @@ import type { IcsDraft, IcsReport } from '../utils/ics';
 import { isTimeTreeText, parseTimeTreeText } from '../utils/timetreeText';
 import { extractTimeTreeMonths } from '../utils/timetreeExtract';
 import { formatDate, generateCalendarGrid, weekdayHeaders } from '../utils/holidayUtils';
-import { samplePacks } from '../demoData';
+import { googleSample, samplePacks } from '../demoData';
 import type { SamplePack } from '../demoData';
 
 export const ImportSheets: React.FC = () => {
   const { importOpen } = useStore();
   if (!importOpen) return null;
   if (importOpen === 'sync') return <SampleSheet />;
+  if (importOpen === 'google') return <GoogleDemoSheet />;
   if (importOpen === 'file') return <FileMenuSheet />;
   if (importOpen === 'ics') return <IcsSheet />;
   if (importOpen === 'image') return <ImageSheet />;
@@ -36,7 +37,17 @@ const MenuSheet: React.FC = () => {
   const { openImport } = useStore();
   return (
     <Sheet title="取り込み・同期" onClose={() => openImport(null)}>
-      <p className="muted">予定を入れる方法は2つあります。まずは「サンプル予定の取り込み」を試してください。</p>
+      <p className="muted">予定を入れる方法は3つあります。まずは「Googleカレンダーと同期」か「サンプル予定の取り込み」を試してください。</p>
+      <button className="cat-card" onClick={() => openImport('google')}>
+        <span className="cat-icon">🔄</span>
+        <span className="cat-body">
+          <b>Googleカレンダーと同期（デモの見本）</b>
+          <small>本物の版では、ボタン1つで最新の予定を反映します。デモでは架空の予定で体験できます。</small>
+          <span className="cat-apps">
+            <i>Googleカレンダー</i>
+          </span>
+        </span>
+      </button>
       <button className="cat-card" onClick={() => openImport('sync')}>
         <span className="cat-icon">✨</span>
         <span className="cat-body">
@@ -97,6 +108,48 @@ const FileMenuSheet: React.FC = () => {
   );
 };
 
+// ---- Googleカレンダーと同期（デモの見本）----
+// 本物の版では、Google にログインして予定を取り込む。デモ版は Google には一切つながず、架空の予定を入れるだけ。
+const GoogleDemoSheet: React.FC = () => {
+  const { openImport, importEvents, events } = useStore();
+  const list = useMemo(() => googleSample(), []);
+  const [busy, setBusy] = useState(false);
+  const [last, setLast] = useState('');
+  const done = list.every((e) => events.some((x) => x.uid === e.uid));
+  const run = () => {
+    setBusy(true);
+    window.setTimeout(() => {
+      const n = importEvents(list);
+      const d = new Date();
+      setLast(`${n}件の予定を同期しました（${d.getHours()}:${String(d.getMinutes()).padStart(2, '0')}）`);
+      setBusy(false);
+    }, 900);
+  };
+  return (
+    <Sheet title="Googleカレンダーと同期" onClose={() => openImport(null)}>
+      <BackLink to="menu" />
+      <div className="notice">ℹ これは<b>デモの見本</b>です。本物の Google にはつながらず、架空の予定を取り込みます。</div>
+      <div className="cat-card" style={{ cursor: 'default' }}>
+        <span className="cat-icon">📅</span>
+        <span className="cat-body">
+          <b>たかしのGoogleカレンダー（架空）</b>
+          <b>みさきのGoogleカレンダー（架空）</b>
+          <small>歯医者・同期の飲み会・ヨガ教室など</small>
+          <span className="cat-apps">
+            <i>{list.length}件</i>
+            <i>{done ? '同期済み' : '未同期'}</i>
+          </span>
+        </span>
+      </div>
+      <button className="btn primary full" disabled={busy} onClick={run}>
+        {busy ? '同期しています…' : '🔄 今すぐ同期する'}
+      </button>
+      {(last || done) && <div className="notice">✅ {last || '同期済みです。「月」の画面で、🏷️ のついた予定を確かめてください。'}</div>}
+      <p className="muted">本物の版では、Google にログインして、自分のカレンダーを選ぶだけで、ボタン1つで最新の予定が入ります。登録したあとは、自動でも最新になります。</p>
+    </Sheet>
+  );
+};
+
 // ---- サンプル予定の取り込み体験（デモ版）----
 // 本物の版では、Google・Apple・Outlook のカレンダーの URL を登録して、ボタン1つで最新の予定を反映している。
 // デモ版では外部のサービスにはつながず、見本の予定を、ボタン1つで取り込めるようにしてある。
@@ -142,7 +195,7 @@ const SampleSheet: React.FC = () => {
       )}
       {msg && <div className="notice">✅ {msg}</div>}
       <p className="muted">
-        本物の版では、Google・Apple・Outlook のカレンダーの「URL」を登録すると、ボタン1つで最新の予定を自動で反映します。このデモ版は、外部のサービスにはつながず、予定はこの端末のブラウザの中だけに保存されます。
+        本物の版では、Google・Apple・Outlook のカレンダーの予定を、ボタン1つで自動で反映します。このデモ版は、外部のサービスにはつながず、予定はこの端末のブラウザの中だけに保存されます。
       </p>
     </Sheet>
   );

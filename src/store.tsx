@@ -56,7 +56,7 @@ function load(): Partial<Saved> {
 }
 
 // 取り込みの画面：menu＝入口（2つの分類）／sync＝自動同期／file＝ファイル取り込みの入口／ics・image・backup＝それぞれの画面
-export type ImportKind = 'menu' | 'sync' | 'file' | 'ics' | 'image' | 'backup';
+export type ImportKind = 'menu' | 'sync' | 'google' | 'file' | 'ics' | 'image' | 'backup';
 
 export type EditorTarget = { event: FamilyEvent } | { date: string; memberId?: string } | null;
 

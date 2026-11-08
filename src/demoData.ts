@@ -214,3 +214,18 @@ export function samplePacks(today: Date = new Date()): SamplePack[] {
     { id: 'community', icon: '🏘️', title: 'PTA・自治会の予定', who: 'みさき・たかし', from: 'PTA・自治会', desc: '役員会、資源回収、町内清掃、防災訓練', events: communityPack(today) },
   ];
 }
+
+/** 「Googleカレンダーと同期」の見本（架空）。本物の Google にはつながない */
+export function googleSample(today: Date = new Date()): Draft[] {
+  const out: Draft[] = [];
+  const T = 'たかしのGoogleカレンダー';
+  const M = 'みさきのGoogleカレンダー';
+  for (const { y, m } of months(today)) {
+    out.push({ ...timed(`demo:google:dentist:${y}${pad(m)}`, '歯医者', ymd(y, m, 18), '18:30', '19:15', [FATHER], T), source: 'google' });
+    out.push({ ...timed(`demo:google:friends:${y}${pad(m)}`, '同期の飲み会 🍻', ymd(y, m, nthWeekday(y, m, 5, 4)), '19:00', '21:30', [FATHER], T), source: 'google' });
+  }
+  for (const date of weeklyDates(today, 1)) {
+    out.push({ ...timed(`demo:google:yoga:${date}`, 'ヨガ教室', date, '10:30', '11:30', [MOTHER], M), source: 'google' });
+  }
+  return out;
+}
