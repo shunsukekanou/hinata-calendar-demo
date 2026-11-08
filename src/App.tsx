@@ -111,7 +111,9 @@ const Main: React.FC = () => {
       <header className="top">
         <div className="brand">
           <span className="brand-mark">🏠</span>
-          <h1>ひなた家カレンダー</h1>
+          <h1>
+            家族カレンダー<small className="family-tag">ひなた家（デモ）</small>
+          </h1>
           <div className="legend">
             {members.map((m) => (
               <span key={m.id} className="legend-item" style={{ color: m.color }}>

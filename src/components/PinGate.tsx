@@ -86,7 +86,8 @@ const LockScreen: React.FC<{ onOpen: () => void }> = ({ onOpen }) => {
     <div className="lock">
       <div className="lock-card">
         <div className="lock-mark">🏠</div>
-        <h1>ひなた家カレンダー</h1>
+        <h1>家族カレンダー</h1>
+        <p className="lock-sub">ひなた家（デモ）</p>
         <p className="lock-sub">家族の合言葉（4桁の番号）を入れてください</p>
         <p className="lock-sub" style={{ fontWeight: 700 }}>
           デモ版の番号は「{PIN}」です

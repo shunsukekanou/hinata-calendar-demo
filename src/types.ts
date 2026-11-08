@@ -1,4 +1,4 @@
-// ひなた家カレンダーの型
+// 家族カレンダーの型
 
 export interface Member {
   id: string;

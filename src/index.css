@@ -1,4 +1,4 @@
-/* ひなた家カレンダー：あたたかい配色・スマホ（縦向き）を基本にしたデザイン */
+/* 家族カレンダー：あたたかい配色・スマホ（縦向き）を基本にしたデザイン */
 :root {
   --bg: #fbf6ef;
   --card: #ffffff;
@@ -430,3 +430,6 @@ html, body { overscroll-behavior-x: none; }
 .onb-later { align-self: center; border: 0; background: transparent; color: var(--muted); text-decoration: underline; font-size: 0.82rem; padding: 6px 10px; cursor: pointer; }
 .notice.warn { background: #fff1e0; border-color: #e8a85c; }
 .inapp-notice p { margin: 6px 0; }
+
+/* デモの家族名（ひなた家）の小さな表示 */
+.brand h1 .family-tag { font-size: 12px; font-weight: 700; color: #8a7a6c; background: #efe8e0; padding: 2px 8px; border-radius: 10px; margin-left: 8px; vertical-align: middle; white-space: nowrap; }
