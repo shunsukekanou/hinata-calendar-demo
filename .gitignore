@@ -1,0 +1,33 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 同期で受け取った予定（個人の予定を含むので公開しない）
+data/
+
+# サーバーの動きの記録
+logs/
+
+# 指示書には Supabase の接続キーが書かれているので、GitHub に送らない（Gemini との受け渡し専用）
+指示書.md
